@@ -76,7 +76,7 @@ const Home = () => {
 
   return (
     <div style={{ minWidth: '500px' }}>
-      <h1>Toko Minyak Ajeng</h1>
+      <h1>CV. SATRIA SANJAYA</h1>
       <Button onClick={() => navigate('/history')}>History</Button>
       <br />
       <br />
