@@ -4,7 +4,6 @@ import { useLiveQuery } from 'dexie-react-hooks';
 
 import moment, { Moment } from 'moment';
 import { useState } from 'react';
-import dayjs from 'dayjs';
 import { db } from '../../db/db';
 
 const columns = [
@@ -79,13 +78,13 @@ const History = () => {
         .where('[kKNumber+timeStamp]')
         .between(
           [kk, selectedDate[0].set('hour', 1).toDate()],
-          [kk, selectedDate[0].set('hour', 23).toDate()]
+          [kk, selectedDate[1].set('hour', 23).toDate()]
         )
         .toArray();
     }
     return theDb.toArray();
   }, [selectedDate, kk]);
-  console.log('the friends', friends);
+
   const dataSource = friends?.map((friend, index) => ({
     key: index,
     no: index,

@@ -71,7 +71,15 @@ const Home = () => {
       name: values.name,
       timeStamp: new Date(Date.now()),
     });
-    console.log('tasyaa', id);
+    form.setFieldsValue({
+      address: '',
+      kKNumber: '',
+      nik: '',
+      npwp: '',
+      shopName: '',
+      weight: '',
+      name: '',
+    });
   };
 
   return (
@@ -108,35 +116,35 @@ const Home = () => {
           name="nik"
           rules={[{ required: true, message: 'Masukkan NIK' }]}
         >
-          <Input disabled={!newUser} />
+          <Input />
         </Form.Item>
         <Form.Item
           label="Nama"
           name="name"
           rules={[{ required: true, message: 'Masukkan Nama' }]}
         >
-          <Input disabled={!newUser} />
+          <Input />
         </Form.Item>
         <Form.Item
           label="Nama Toko"
           name="shopName"
           rules={[{ required: true, message: 'Masukkan Nama Toko' }]}
         >
-          <Input disabled={!newUser} />
+          <Input />
         </Form.Item>
         <Form.Item
           label="Alamat"
           name="address"
           rules={[{ required: true, message: 'Masukkan Alamat' }]}
         >
-          <Input disabled={!newUser} />
+          <Input />
         </Form.Item>
         <Form.Item
           label="NPWP"
           name="npwp"
           rules={[{ required: true, message: 'Masukkan NPWP' }]}
         >
-          <Input disabled={!newUser} />
+          <Input />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" disabled={!canBuy}>
