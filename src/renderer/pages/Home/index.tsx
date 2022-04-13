@@ -7,10 +7,46 @@ import { db, Friend } from '../../db/db';
 const Home = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [nama, setNama] = useState('');
   const [canBuy, setCanBuy] = useState(true);
   const [newUser, setNewUser] = useState(false);
-  const [status, setStatus] = useState('');
+
+  const onNameChange = async (value: string) => {
+    const usersList = await db.friends.where('name').equals(value).toArray();
+    if (usersList.length < 1) {
+      setNewUser(true);
+      form.setFieldsValue({
+        address: '',
+        nik: '',
+        npwp: '',
+        shopName: '',
+        weight: '',
+        kKNumber: '',
+      });
+    } else {
+      setNewUser(false);
+      form.setFieldsValue({
+        address: usersList[0].address,
+        nik: usersList[0].nik,
+        npwp: usersList[0].npwp,
+        shopName: usersList[0].shopName,
+        kKNumber: usersList[0].kKNumber,
+      });
+    }
+
+    const hasBuyList = await db.friends
+      .where('[name+timeStamp]')
+      .between(
+        [value, dayjs().set('hour', 1).toDate()],
+        [value, dayjs().set('hour', 23).toDate()]
+      )
+      .toArray();
+
+    if (hasBuyList.length > 0) {
+      setCanBuy(false);
+    } else {
+      setCanBuy(true);
+    }
+  };
 
   const onKkChange = async (value: string) => {
     try {
@@ -18,7 +54,6 @@ const Home = () => {
         .where('kKNumber')
         .equals(value)
         .toArray();
-      console.log('the user list', usersList);
       if (usersList.length < 1) {
         setNewUser(true);
         form.setFieldsValue({
@@ -60,7 +95,6 @@ const Home = () => {
   };
 
   const onFinish = async (values: Friend) => {
-    console.log('si tasya', values);
     const id = await db.friends.add({
       address: values.address,
       kKNumber: values.kKNumber,
@@ -123,7 +157,7 @@ const Home = () => {
           name="name"
           rules={[{ required: true, message: 'Masukkan Nama' }]}
         >
-          <Input />
+          <Input onChange={(e) => onNameChange(e.target.value)} />
         </Form.Item>
         <Form.Item
           label="Nama Toko"
